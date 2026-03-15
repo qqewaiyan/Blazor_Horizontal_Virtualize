@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="HorizontalVirtualizationComponent/HorizontalVirtualizationComponent.Client/HorizontalVirtualizationComponent.Client.csproj" />
+  <Project Path="HorizontalVirtualizationComponent/HorizontalVirtualizationComponent/HorizontalVirtualizationComponent.csproj" />
+</Solution>

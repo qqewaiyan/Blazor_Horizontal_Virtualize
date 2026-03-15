@@ -1,0 +1,59 @@
+﻿@page "/"
+
+@page "/simple-horizontal-virtualize-example"
+@using System.Linq
+
+<h3>Simple Horizontal Virtualization Example</h3>
+
+<!--
+The component is placed inside a container that scrolls horizontally.
+The ContainerWidth is set to 500px and each item is 100px wide.
+-->
+<div style="display: flex; flex-direction: column; align-items: center; width : @(containerWidth + "px")">
+    <HorizontalVirtualize TItem="string"
+                                                            Items="@MyItems"
+                                                            ContainerWidth="@containerWidth"
+                                                            ItemSize="200"
+                                                            NavJumpItemCount="7"
+                                                            OverscanCount="20">
+        <ItemTemplate Context="item">
+            <div class="inline_card">
+                <div class="carousel_card">
+                    <img src="https://cdn.pixabay.com/photo/2020/09/25/16/50/portrait-5601950_640.jpg" alt="product image" style="width: 100px; height: 100px; object-fit: cover;" />
+                    <div class="product-info" style="padding: 5px;">
+                        <div class="product-name" style="font-size: 14px; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            @item
+                        </div>
+                        <div class="product-price" style="font-size: 16px; font-weight: bold; color: #007bff;">
+                            @("$" + item + "00")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ItemTemplate>
+    </HorizontalVirtualize>
+</div>
+
+@code {
+    [Inject]
+    private IJSRuntime JSRuntime { get; set; } = default!;
+
+    private IJSObjectReference? _jsModule;
+
+    // Create a collection of 100 sample items.
+    List<string> MyItems = Enumerable.Range(1, 1000)
+                                     .Select(i => $"Item {i}")
+                                     .ToList();
+    private double containerWidth { get; set; }
+
+   
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            containerWidth = await JSRuntime.InvokeAsync<double>("calculateContainerWidth");
+            StateHasChanged();
+        }
+    }
+}
+
