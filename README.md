@@ -1,5 +1,7 @@
 # Blazor Horizontal Virtualization (POC)
 
+Demo - https://blazor-horizontal-virtualize.onrender.com/
+
 This project is a **proof of concept for horizontal virtualization in
 Blazor**.
 
